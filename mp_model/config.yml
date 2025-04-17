@@ -1,0 +1,22 @@
+# Package Overview
+package_name: mp_model
+
+# Data Files
+training_data_file: MP2_FaceMask_Dataset
+
+# Variables
+# The variable we are attempting to predict (cnt)
+target: cnt
+
+pipeline_name: mp_model
+pipeline_save_file: mp__model_output_v
+
+label_names:
+  - "partial_mask"
+  - "with_mask"
+  - "without_mask"
+
+# Set the random seed
+random_state: 42
+
+BATCH_SIZE: 32
