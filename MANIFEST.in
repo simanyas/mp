@@ -1,0 +1,19 @@
+include *.txt
+include *.md
+include *.pkl
+recursive-include ./mp_model *
+
+include mp_model/datasets/MP2_FaceMask_Dataset/train
+include mp_model/datasets/MP2_FaceMask_Dataset/test
+include mp_model/datasets/
+include mp_model/trained_models/*.pkl
+include mp_model/VERSION
+include mp_model/config.yml
+
+include ./requirements/requirements.txt
+include ./requirements/test_requirements.txt
+exclude *.log
+exclude *.cfg
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
