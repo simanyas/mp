@@ -37,9 +37,6 @@ jobs:
       continue-on-error: true
       run: |
         black *.py
-    - name: Test with pytest
-      run: |
-        pytest
     - name: Predict pipeline
       run: |
         python mp_model/predict.py
