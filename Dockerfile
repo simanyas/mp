@@ -2,10 +2,10 @@
 FROM python:3.10-slim
 
 # copy application files
-ADD /mp_model_api /mp_model_api/
+ADD /mp_api /mp_api/
 
 # specify working directory
-WORKDIR /mp_model_api
+WORKDIR /mp_api
 
 # update pip
 RUN pip install --upgrade pip
