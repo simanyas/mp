@@ -34,6 +34,11 @@ from mp_model.config.core import DATASET_DIR
 
 global train_generator, val_generator, batch_stats_callback
 
+def evaluate_model():
+    score = model.evaluate(val_generator)
+    print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
+    return score
+
 def run_training() -> None:
     """
     Train the model.
@@ -44,8 +49,7 @@ def run_training() -> None:
     # read training data
     #data = load_dataset(file_name = config.app_config_.training_data_file)
 
-    score = model.evaluate(val_generator)
-    print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
+    score = evaluate_model()
     # persist trained model
     save_model(model)
 
