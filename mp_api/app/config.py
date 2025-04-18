@@ -18,7 +18,7 @@ class Settings(BaseSettings):
         "https://localhost:8000",  # type: ignore
     ]
 
-    PROJECT_NAME: str = "Mask Prediction API"
+    PROJECT_NAME: str = "Facemask Prediction API"
 
     class Config:
         case_sensitive = True

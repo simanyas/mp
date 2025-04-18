@@ -13,7 +13,6 @@ from keras.layers import Conv2D, Input, ZeroPadding2D, BatchNormalization, Activ
 from keras.models import Model, load_model
 from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
 
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from sklearn.utils import shuffle
 

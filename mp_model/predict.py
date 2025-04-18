@@ -22,7 +22,8 @@ model_file_name = f"{config.app_config_.pipeline_save_file}{_version}.keras"
 
 def make_prediction(*, test_image) -> dict:
     """Make a prediction using a saved model """
-    predicted = model.predict(test_image)
+    img_tensor = get_img_array()
+    predicted = model.predict(img_tensor)
     predicted_id = np.argmax(predicted, axis=-1)
     predicted_label = [config.label_names[idx] for idx in predicted_id]
     errors = False
@@ -33,7 +34,7 @@ def make_prediction(*, test_image) -> dict:
 # Function to preprocess the image into an array suitable for input into a model
 def get_img_array():
     # Loading the image from the path and resizing it to the target size (180x180)
-    img = keras.utils.load_img(PRED_DIR + "IMG_0334.jpg", target_size=(256, 256))
+    img = keras.utils.load_img(PRED_DIR / "IMG_0334.jpg", target_size=(256, 256))
 
     # Converting the loaded image into a numpy array
     array = keras.utils.img_to_array(img)  # Converts image to a 3D numpy array (height, width, channels)
@@ -46,5 +47,4 @@ def get_img_array():
     return array
 
 if __name__ == "__main__":
-    img_tensor = get_img_array()
-    make_prediction(input_data = img_tensor)
+    make_prediction()

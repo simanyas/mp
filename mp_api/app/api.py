@@ -37,33 +37,19 @@ def health() -> dict:
 example_input = {
     "inputs": [
         {
-            "dteday": "2012-11-05", # datetime.datetime.strptime("2012-11-05", "%Y-%m-%d"),  
-            "season": "winter", 
-            "hr": "6am",
-            "holiday": "No", 
-            "weekday": "Mon",
-            "workingday": "Yes",
-            "weathersit": "Mist",
-            "temp": 6.10,
-            "atemp": 3.0014,
-            "hum": 19.0012,	
-            "windspeed": 19.0012,
-            "yr": 2012,
-            "mnth": "November",
+            "predict_image": "IMG_0334.jpg"
         }
     ]
 }
-
 
 @api_router.post("/predict", response_model=schemas.PredictionResults, status_code=200)
 async def predict(input_data: schemas.MultipleDataInputs = Body(..., example=example_input)) -> Any:
     """
     Mask prediction with the mp_model
     """
-
-    input_df = pd.DataFrame(jsonable_encoder(input_data.inputs))
-    
-    results = make_prediction(input_data=input_df.replace({np.nan: None}))
+    input_image_name = jsonable_encoder(input_data.inputs)
+    print(input_image_name)
+    results = make_prediction(test_image=input_image_name)
 
     if results["errors"] is not None:
         raise HTTPException(status_code=400, detail=json.loads(results["errors"]))
