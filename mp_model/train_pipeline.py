@@ -30,11 +30,18 @@ from mp_model.config.core import config
 from mp_model.pipeline import model
 from mp_model.processing.data_manager import save_model
 from mp_model.processing.features import CollectBatchStats
-from mp_model.config.core import DATASET_DIR
+from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR
 
 global train_generator, val_generator, batch_stats_callback
 
 def evaluate_model():
+    test_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+    val_generator = test_image_generator.flow_from_directory(DATASET_DIR / "MP2_FaceMask_Dataset" / "test",
+                                            class_mode='categorical',
+                                            shuffle=False,
+                                            batch_size=32
+                                           )
+    #reloaded_model = tf.keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
     score = model.evaluate(val_generator)
     print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
     return score

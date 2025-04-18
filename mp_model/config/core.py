@@ -42,7 +42,6 @@ class ModelConfig(BaseModel):
     """
     target: str
 
-
 class Config(BaseModel):
     """Master config object."""
     app_config_: AppConfig

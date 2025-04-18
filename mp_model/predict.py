@@ -7,7 +7,7 @@ sys.path.append(str(root))
 from typing import Union
 import pandas as pd
 import numpy as np
-
+from tensorflow import keras
 from mp_model import __version__ as _version
 from mp_model.config.core import config
 from mp_model.pipeline import model
@@ -16,16 +16,18 @@ from mp_model.config.core import PRED_DIR
 model_file_name = f"{config.app_config_.pipeline_save_file}{_version}.keras"
 #mp_pipe = load_pipeline(file_name = pipeline_file_name)
 
+global label_names
 
-def make_prediction(*, test_image) -> dict:
+def make_prediction(test_image) -> dict:
     """Make a prediction using a saved model """
+    label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
     predicted = model.predict(img_tensor)
     predicted_id = np.argmax(predicted, axis=-1)
-    predicted_label = [config.label_names[idx] for idx in predicted_id]
+    predicted_label = [label_names[idx] for idx in predicted_id]
     errors = False
     results = {"predictions": predicted_label, "version": _version, "errors": errors}
-    print(results)
+    print("Results:", results, predicted)
     return results
 
 # Function to preprocess the image into an array suitable for input into a model
@@ -44,4 +46,5 @@ def get_img_array():
     return array
 
 if __name__ == "__main__":
-    make_prediction()
+    test_image="IMG_0334.jpg"
+    make_prediction(test_image)

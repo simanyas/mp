@@ -7,7 +7,7 @@ sys.path.append(str(root))
 import pytest
 from mp_model.train_pipeline import evaluate_model
 
-@pytest.fixture
-def sample_input_data():
+
+def test_sample_input_data():
     evaluate_model()
     return
