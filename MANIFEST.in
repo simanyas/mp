@@ -5,6 +5,7 @@ include *.yml
 recursive-include ./mp_model/config *
 recursive-include ./mp_model/processing *
 recursive-include ./mp_model/trained_models *
+recursive-include ./mp_model/datasets *
 include mp_model/pipeline.py
 include mp_model/predict.py
 include mp_model/train_pipeline.py
