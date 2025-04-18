@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from keras.models import Sequential
 from keras.layers import Conv2D, Input, ZeroPadding2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense,Dropout
 from keras.models import Model, load_model
-from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
+#from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
 
 from sklearn.metrics import f1_score
 from sklearn.utils import shuffle
@@ -32,7 +32,7 @@ from mp_model.processing.data_manager import save_model
 from mp_model.processing.features import CollectBatchStats
 from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR
 
-global train_generator, val_generator, batch_stats_callback
+global train_generator, val_generator
 
 def evaluate_model():
     test_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
@@ -41,8 +41,8 @@ def evaluate_model():
                                             shuffle=False,
                                             batch_size=32
                                            )
-    #reloaded_model = tf.keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
-    score = model.evaluate(val_generator)
+    reloaded_model = tf.keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    score = reloaded_model.evaluate(val_generator)
     print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
     return score
 
@@ -51,19 +51,18 @@ def run_training() -> None:
     Train the model.
     """
     # Compile the model
-    '''
+
     model.compile(optimizer=tf.keras.optimizers.Adam(), loss='categorical_crossentropy', metrics=['f1_score'])
-    history = model.fit(train_generator, epochs=1, validation_data=val_generator, callbacks = [batch_stats_callback])
+    history = model.fit(train_generator, epochs=1, validation_data=val_generator)
     # read training data
     #data = load_dataset(file_name = config.app_config_.training_data_file)
     
     score = evaluate_model()
     # persist trained model
     save_model(model)
-    '''
+
 
 if __name__ == "__main__":
-    '''
     img_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255,
                                                           rotation_range=20,
                                                           horizontal_flip=True,
@@ -92,6 +91,5 @@ if __name__ == "__main__":
         print("Image batch shape: ", image_batch.shape)
         print("Label batch shape: ", label_batch.shape)
         break
-    batch_stats_callback = CollectBatchStats()
-    '''
+    #batch_stats_callback = CollectBatchStats()
     run_training()
