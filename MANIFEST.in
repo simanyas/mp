@@ -8,7 +8,6 @@ recursive-include ./mp_model/trained_models *
 recursive-include ./mp_model/pipeline.py
 recursive-include ./mp_model/predict.py
 recursive-include ./mp_model/train_pipeline.py
-recursive-include ./mp_model/VERSION
 
 include mp_model/trained_models/*.keras
 include mp_model/VERSION
