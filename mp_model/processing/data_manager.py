@@ -54,7 +54,7 @@ def preprocess_training_data():
     
 
 ##  Pre-Pipeline Preparation
-def save_model(*, model) -> None:
+def save_model(model) -> None:
     """Persist the pipeline.
     Saves the versioned model, and overwrites any previous saved models. 
     This ensures that when the package is published, there is only one trained model that 
