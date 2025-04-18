@@ -32,7 +32,7 @@ jobs:
     - name: Test with pylint
       continue-on-error: true
       run: |
-        pylint mp/*.py
+        pylint *.py
     - name: Format with black
       continue-on-error: true
       run: |

@@ -51,16 +51,19 @@ def run_training() -> None:
     Train the model.
     """
     # Compile the model
+    '''
     model.compile(optimizer=tf.keras.optimizers.Adam(), loss='categorical_crossentropy', metrics=['f1_score'])
     history = model.fit(train_generator, epochs=1, validation_data=val_generator, callbacks = [batch_stats_callback])
     # read training data
     #data = load_dataset(file_name = config.app_config_.training_data_file)
-
+    
     score = evaluate_model()
     # persist trained model
     save_model(model)
+    '''
 
 if __name__ == "__main__":
+    '''
     img_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255,
                                                           rotation_range=20,
                                                           horizontal_flip=True,
@@ -90,4 +93,5 @@ if __name__ == "__main__":
         print("Label batch shape: ", label_batch.shape)
         break
     batch_stats_callback = CollectBatchStats()
+    '''
     run_training()

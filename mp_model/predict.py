@@ -11,7 +11,7 @@ from tensorflow import keras
 from mp_model import __version__ as _version
 from mp_model.config.core import config
 from mp_model.pipeline import model
-from mp_model.config.core import PRED_DIR
+from mp_model.config.core import PRED_DIR, TRAINED_MODEL_DIR
 
 model_file_name = f"{config.app_config_.pipeline_save_file}{_version}.keras"
 #mp_pipe = load_pipeline(file_name = pipeline_file_name)
@@ -20,9 +20,10 @@ global label_names
 
 def make_prediction(test_image) -> dict:
     """Make a prediction using a saved model """
+    reloaded_model = keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1_addl.keras")
     label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
-    predicted = model.predict(img_tensor)
+    predicted = reloaded_model.predict(img_tensor)
     predicted_id = np.argmax(predicted, axis=-1)
     predicted_label = [label_names[idx] for idx in predicted_id]
     errors = False
