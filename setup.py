@@ -6,7 +6,7 @@ from pathlib import Path
 from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = 'mp'
+NAME = 'mp_model'
 DESCRIPTION = "Facemask detection model package "
 EMAIL = "------"
 AUTHOR = "----------"
