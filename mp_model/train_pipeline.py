@@ -48,7 +48,7 @@ def run_training() -> None:
     score = model.evaluate(val_generator)
     print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
     # persist trained model
-    save_model(pipeline_to_persist = model)
+    save_model(model)
 
 if __name__ == "__main__":
     img_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255,
