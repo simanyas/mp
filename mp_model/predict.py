@@ -6,6 +6,7 @@ sys.path.append(str(root))
 
 from typing import Union
 import numpy as np
+import gc
 from tensorflow import keras
 from mp_model import __version__ as _version
 from mp_model.config.core import config
@@ -28,6 +29,7 @@ def make_prediction(test_image) -> dict:
     errors = False
     results = {"predictions": predicted_label, "version": _version, "errors": errors}
     print("Results:", results, predicted)
+    del reloaded_model
     return results
 
 # Function to preprocess the image into an array suitable for input into a model
@@ -49,3 +51,4 @@ def get_img_array():
 if __name__ == "__main__":
     test_image="IMG_0334.jpg"
     make_prediction(test_image)
+    gc.collect()
