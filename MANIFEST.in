@@ -1,24 +1,14 @@
 include *.txt
 include *.md
-include *.keras
-include *.yml
-recursive-include ./mp_model/config *
-recursive-include ./mp_model/processing *
-recursive-include ./mp_model/trained_models *
-recursive-include ./mp_model/datasets *
-include mp_model/pipeline.py
-include mp_model/predict.py
-include mp_model/train_pipeline.py
 
-include mp_model/trained_models/*.keras
-include mp_model/VERSION
-include mp_model/config.yml
+recursive-include ./mp_model *
+recursive-exclude ./mp_model/datasets/MP2_FaceMask_Dataset *
 
 include ./requirements/requirements.txt
 include ./requirements/test_requirements.txt
 exclude *.log
 exclude *.cfg
+exclude *.zip
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
-recursive-exclude * ./mp_model/datasets

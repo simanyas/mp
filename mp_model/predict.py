@@ -19,7 +19,8 @@ global label_names
 
 def make_prediction(test_image) -> dict:
     """Make a prediction using a saved model """
-    reloaded_model = keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    reload_path = str(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    reloaded_model = keras.models.load_model(reload_path)
     label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
     predicted = reloaded_model.predict(img_tensor)
@@ -33,7 +34,8 @@ def make_prediction(test_image) -> dict:
 # Function to preprocess the image into an array suitable for input into a model
 def get_img_array():
     # Loading the image from the path and resizing it to the target size (180x180)
-    img = keras.utils.load_img(PRED_DIR / "IMG_0334.jpg", target_size=(256, 256))
+    pred_path = str(PRED_DIR / "IMG_0334.jpg")
+    img = keras.utils.load_img(pred_path, target_size=(256, 256))
 
     # Converting the loaded image into a numpy array
     array = keras.utils.img_to_array(img)  # Converts image to a 3D numpy array (height, width, channels)

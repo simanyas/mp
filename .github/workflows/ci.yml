@@ -45,6 +45,7 @@ jobs:
         python -m build
     - name: Build package
       run: |
+        rm -r mp_model/datasets/MP2_FaceMask_Dataset
         cp dist/*.whl mp_api/app
         cp dist/*.whl mp_api/
     - name: Login to Docker hub

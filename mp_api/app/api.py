@@ -47,9 +47,9 @@ async def predict(input_data: schemas.MultipleDataInputs = Body(..., example=exa
     """
     Mask prediction with the mp_model
     """
-    input_image_name = jsonable_encoder(input_data.inputs)
-    print(input_image_name)
-    results = make_prediction(test_image=input_image_name)
+    #input_image_name = jsonable_encoder(input_data.inputs)
+    #print("input_image_name = ", input_image_name)
+    results = make_prediction("IMG_0334.jpg")
 
     if results["errors"] is not None:
         raise HTTPException(status_code=400, detail=json.loads(results["errors"]))

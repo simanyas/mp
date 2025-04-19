@@ -11,7 +11,6 @@ from sklearn.metrics import mean_squared_error, r2_score
 from keras.models import Sequential
 from keras.layers import Conv2D, Input, ZeroPadding2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense,Dropout
 from keras.models import Model, load_model
-#from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
 
 from sklearn.metrics import f1_score
 from sklearn.utils import shuffle
@@ -19,8 +18,6 @@ from sklearn.utils import shuffle
 import numpy as np
 import pandas as pd
 import PIL
-from keras.applications.vgg16 import VGG16
-from tensorflow.keras.applications.resnet50 import ResNet50
 import tensorflow as tf
 from tensorflow import keras
 import glob, os
@@ -28,20 +25,21 @@ from tensorflow.keras import layers
 
 from mp_model.config.core import config
 from mp_model.pipeline import model
-from mp_model.processing.data_manager import save_model
+from mp_model.processing.data_manager import save_model, preprocess_training_data
 from mp_model.processing.features import CollectBatchStats
 from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR
 
-global train_generator, val_generator
+global train_generator, val_generator, train_path, test_path
 
 def evaluate_model():
     test_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
-    val_generator = test_image_generator.flow_from_directory(DATASET_DIR / "MP2_FaceMask_Dataset" / "test",
+    val_generator = test_image_generator.flow_from_directory(test_path,
                                             class_mode='categorical',
                                             shuffle=False,
                                             batch_size=32
                                            )
-    reloaded_model = tf.keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    reload_path = str(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    reloaded_model = tf.keras.models.load_model(reload_path)
     score = reloaded_model.evaluate(val_generator)
     print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
     return score
@@ -63,6 +61,7 @@ def run_training() -> None:
 
 
 if __name__ == "__main__":
+    preprocess_training_data()
     img_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255,
                                                           rotation_range=20,
                                                           horizontal_flip=True,
@@ -74,7 +73,9 @@ if __name__ == "__main__":
                                                           zoom_range = [1, 1.5],
                                                           fill_mode='nearest'
                                                          )
-    train_generator = img_gen.flow_from_directory(DATASET_DIR / "MP2_FaceMask_Dataset" / "train",
+    train_path = str(DATASET_DIR / "MP2_FaceMask_Dataset" / "train")
+    print(train_path)
+    train_generator = img_gen.flow_from_directory(train_path,
                                               class_mode='categorical',
                                               subset='training',
                                               shuffle=True,
@@ -82,7 +83,9 @@ if __name__ == "__main__":
                                              )
     # Validation data
     test_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
-    val_generator = test_image_generator.flow_from_directory(DATASET_DIR / "MP2_FaceMask_Dataset" / "test",
+    test_path = str(DATASET_DIR / "MP2_FaceMask_Dataset" / "test")
+    print(test_path)
+    val_generator = test_image_generator.flow_from_directory(test_path,
                                             class_mode='categorical',
                                             shuffle=False,
                                             batch_size=32

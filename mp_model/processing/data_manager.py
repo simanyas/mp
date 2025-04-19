@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
@@ -19,13 +20,12 @@ from pathlib import Path
 from mp_model import __version__ as _version
 from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, PRED_DIR, config
 
-
-global paths, shapes, modes, format
+global paths
+shapes = defaultdict(int) # Initialize with int
+modes = defaultdict(int) # Initialize with int
+format = defaultdict(int) # Initialize with int
 
 def size_image(source_path: str) -> None:
-    shapes = defaultdict(int) # Initialize with int
-    modes = defaultdict(int) # Initialize with int
-    format = defaultdict(int) # Initialize with int
     #print(source_path)
     with Image.open(source_path) as img:
         shapes[(img.size[0], img.size[1])] += 1
@@ -34,15 +34,22 @@ def size_image(source_path: str) -> None:
 
 
 def preprocess_training_data():
+    print("Extracting data")
+    ZIP_FILE = DATASET_DIR / "MP2_FaceMask_Dataset.zip"
+    print(ZIP_FILE.__fspath__)
+    zip_path = str(ZIP_FILE)
+    command = 'unzip -qq -d ' + str(DATASET_DIR) + " " + zip_path
+    os.system(command)
+    print("Done extracting data from ", zip_path)
     paths = []
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "train" + "/with_mask/*")
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "train" + "/without_mask/*")
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "train" + "/partial_mask/*")
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "test" + "/with_mask/*")
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "test" + "/without_mask/*")
-    paths.append(DATASET_DIR + "MP2_FaceMask_Dataset" + "test" + "/partial_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "train" / "/with_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "train" / "/without_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "train" / "/partial_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "test" / "/with_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "test" / "/without_mask/*")
+    paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "test" / "/partial_mask/*")
     for path_list in paths:
-        for path in glob.glob(path_list):
+        for path in glob.glob(str(path_list),recursive=True):
             size_image(path)
     mode_shapes = defaultdict(int)
     for k,v in shapes.items():
@@ -51,7 +58,7 @@ def preprocess_training_data():
     print(format)
     print(shapes)
     print(modes)
-    
+
 
 ##  Pre-Pipeline Preparation
 def save_model(model) -> None:
