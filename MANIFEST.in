@@ -1,5 +1,6 @@
 include *.txt
 include *.md
+include *.keras
 
 recursive-include ./mp_model *
 recursive-exclude ./mp_model/datasets/MP2_FaceMask_Dataset *
