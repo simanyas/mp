@@ -53,7 +53,7 @@ jobs:
         sudo docker login -u ${{secrets.DOCKER_UNAME}} -p ${{secrets.DOCKER}}
     - name: Build container
       run: |
-        sudo docker build . -t ${{secrets.DOCKER_UNAME}}/mp_api
+        sudo docker build . --squash -t ${{secrets.DOCKER_UNAME}}/mp_api
         sudo docker images
     - name: Push to Docker hub
       run: |
