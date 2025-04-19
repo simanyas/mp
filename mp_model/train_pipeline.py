@@ -19,8 +19,6 @@ from mp_model.pipeline import model
 from mp_model.processing.data_manager import save_model, preprocess_training_data
 from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR
 
-global train_generator, val_generator, train_path, test_path
-
 def evaluate_model():
     test_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
     val_generator = test_image_generator.flow_from_directory(test_path,
@@ -84,5 +82,4 @@ if __name__ == "__main__":
         print("Image batch shape: ", image_batch.shape)
         print("Label batch shape: ", label_batch.shape)
         break
-    #batch_stats_callback = CollectBatchStats()
     run_training()
