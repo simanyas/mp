@@ -43,21 +43,21 @@ example_input = {
 }
 def make_prediction(test_image) -> dict:
     """Make a prediction using a saved model """
-    reloaded_model = keras.models.load_model(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras")
+    reloaded_model = keras.models.load_model(str(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras"))
     label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
     predicted = reloaded_model.predict(img_tensor)
     predicted_id = np.argmax(predicted, axis=-1)
     predicted_label = [label_names[idx] for idx in predicted_id]
     errors = False
-    results = {"predictions": predicted_label, "version": _version, "errors": errors}
+    results = {"predictions": predicted_label[0], "version": model_version, "errors": errors}
     print("Results:", results, predicted)
     return results
 
 # Function to preprocess the image into an array suitable for input into a model
 def get_img_array():
     # Loading the image from the path and resizing it to the target size (180x180)
-    img = keras.utils.load_img(PRED_DIR / "IMG_0334.jpg", target_size=(256, 256))
+    img = keras.utils.load_img(str(PRED_DIR / "IMG_0334.jpg"), target_size=(256, 256))
 
     # Converting the loaded image into a numpy array
     array = keras.utils.img_to_array(img)  # Converts image to a 3D numpy array (height, width, channels)
@@ -78,7 +78,7 @@ async def predict(input_data: schemas.MultipleDataInputs = Body(..., example=exa
     #print("input_image_name = ", input_image_name)
     results = make_prediction("IMG_0334.jpg")
 
-    if results["errors"] is not None:
+    if results["errors"] is not False:
         raise HTTPException(status_code=400, detail=json.loads(results["errors"]))
 
     return results
