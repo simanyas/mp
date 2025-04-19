@@ -33,6 +33,8 @@ def preprocess_training_data():
     command = 'unzip -qq -d ' + str(DATASET_DIR) + " " + zip_path
     os.system(command)
     print("Done extracting data from ", zip_path)
+    """
+    # Commenting out the glob processing to check if docker image size will reduce
     paths = []
     paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "train" / "/with_mask/*")
     paths.append(DATASET_DIR / "MP2_FaceMask_Dataset" / "train" / "/without_mask/*")
@@ -50,6 +52,7 @@ def preprocess_training_data():
     print(format)
     print(shapes)
     print(modes)
+    """
 
 
 ##  Pre-Pipeline Preparation
