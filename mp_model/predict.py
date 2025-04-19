@@ -5,7 +5,6 @@ parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
 
 from typing import Union
-import pandas as pd
 import numpy as np
 from tensorflow import keras
 from mp_model import __version__ as _version
