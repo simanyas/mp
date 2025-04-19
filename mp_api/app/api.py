@@ -8,12 +8,10 @@ import json
 from typing import Any
 
 import numpy as np
-import pandas as pd
 from fastapi import APIRouter, HTTPException, Body
 from fastapi.encoders import jsonable_encoder
 from mp_model.config.core import TRAINED_MODEL_DIR, PRED_DIR
 from mp_model import __version__ as model_version
-#from mp_model.predict import make_prediction
 from tensorflow import keras
 from app import __version__, schemas
 from app.config import settings
@@ -42,7 +40,7 @@ example_input = {
     ]
 }
 def make_prediction(test_image) -> dict:
-    """Make a prediction using a saved model """
+    """Make a prediction using a pre-trained, saved model """
     reloaded_model = keras.models.load_model(str(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras"))
     label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
