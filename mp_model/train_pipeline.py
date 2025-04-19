@@ -4,19 +4,10 @@ file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
 
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-
-from keras.models import Sequential
-from keras.layers import Conv2D, Input, ZeroPadding2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense,Dropout
+from keras.layers import Conv2D, Input, Activation, MaxPooling2D, Dense
 from keras.models import Model, load_model
 
-from sklearn.metrics import f1_score
-from sklearn.utils import shuffle
-
 import numpy as np
-import pandas as pd
 import PIL
 import tensorflow as tf
 from tensorflow import keras
@@ -26,7 +17,6 @@ from tensorflow.keras import layers
 from mp_model.config.core import config
 from mp_model.pipeline import model
 from mp_model.processing.data_manager import save_model, preprocess_training_data
-from mp_model.processing.features import CollectBatchStats
 from mp_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR
 
 global train_generator, val_generator, train_path, test_path
