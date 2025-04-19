@@ -4,14 +4,6 @@ from pathlib import Path
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
-
-import typing as t
-from pathlib import Path
-
-import joblib
-import pandas as pd
-from sklearn.pipeline import Pipeline
-
 import glob
 from PIL import Image
 from collections import defaultdict
