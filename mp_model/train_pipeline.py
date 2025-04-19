@@ -8,6 +8,7 @@ from keras.layers import Conv2D, Input, Activation, MaxPooling2D, Dense
 from keras.models import Model, load_model
 
 import numpy as np
+import gc
 import PIL
 import tensorflow as tf
 from tensorflow import keras
@@ -30,6 +31,7 @@ def evaluate_model():
     reloaded_model = tf.keras.models.load_model(reload_path)
     score = reloaded_model.evaluate(val_generator)
     print(f'Test loss: {score[0]} / Test f1_score: {score[1]}')
+    del reloaded_model
     return score
 
 def run_training() -> None:
@@ -83,3 +85,5 @@ if __name__ == "__main__":
         print("Label batch shape: ", label_batch.shape)
         break
     run_training()
+    del train_generator, val_generator
+    gc.collect()
