@@ -4,16 +4,9 @@ file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
 
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestRegressor
-
 from keras.models import Sequential
-from keras.layers import Conv2D, Input, ZeroPadding2D, BatchNormalization, Activation, MaxPooling2D, Flatten, Dense,Dropout
+from keras.layers import Conv2D, Input, Activation, MaxPooling2D, Dense
 from keras.models import Model, load_model
-from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
-from keras.applications.vgg16 import VGG16
-from tensorflow.keras.applications.resnet50 import ResNet50
 import tensorflow as tf
 from tensorflow import keras
 import glob, os
