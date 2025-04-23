@@ -47,7 +47,7 @@ jobs:
         python -m build
     - name: Build package
       run: |
-        cp trained_models/*.keras mp_api/
+        cp mp_model/trained_models/*.keras mp_api/
     - name: Login to Docker hub
       run: |
         sudo docker login -u ${{secrets.DOCKER_UNAME}} -p ${{secrets.DOCKER}}
