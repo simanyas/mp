@@ -57,4 +57,4 @@ jobs:
         sudo docker images
     - name: Push to Docker hub
       run: |
-        sudo docker push ${{secrets.DOCKER_UNAME}}/mp:latest
+        sudo docker push ${{secrets.DOCKER_UNAME}}/mp:5
