@@ -47,13 +47,13 @@ jobs:
         python -m build
     - name: Build package
       run: |
-        cp dist/*.whl mp_api/
+        cp trained_models/*.keras mp_api/
     - name: Login to Docker hub
       run: |
         sudo docker login -u ${{secrets.DOCKER_UNAME}} -p ${{secrets.DOCKER}}
     - name: Build container
       run: |
-        sudo docker build . --squash -t ${{secrets.DOCKER_UNAME}}/mp
+        sudo docker build . -t ${{secrets.DOCKER_UNAME}}/mp
         sudo docker images
     - name: Push to Docker hub
       run: |
