@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9"]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -52,7 +52,7 @@ jobs:
         sudo docker login -u ${{secrets.DOCKER_UNAME}} -p ${{secrets.DOCKER}}
     - name: Build container
       run: |
-        sudo docker build . -t ${{secrets.DOCKER_UNAME}}/mp
+        sudo docker build --no-cache -t ${{secrets.DOCKER_UNAME}}/mp .
         sudo docker images
     - name: Push to Docker hub
       run: |
