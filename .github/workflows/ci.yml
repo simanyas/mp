@@ -44,7 +44,6 @@ jobs:
       run: |
         rm -r mp_model/datasets/MP2_FaceMask_Dataset
         rm mp_model/datasets/MP2_FaceMask_Dataset.zip
-        python -m build
     - name: Build package
       run: |
         cp mp_model/trained_models/*.keras mp_api/
