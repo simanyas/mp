@@ -10,11 +10,15 @@ from typing import Any
 import numpy as np
 from fastapi import APIRouter, HTTPException, Body
 from fastapi.encoders import jsonable_encoder
-from mp_model.config.core import TRAINED_MODEL_DIR, PRED_DIR
-from mp_model import __version__ as model_version
+#from mp_model.config.core import TRAINED_MODEL_DIR, PRED_DIR
+#from mp_model import __version__ as model_version
 from tensorflow import keras
 from app import __version__, schemas
 from app.config import settings
+
+reloaded_model = keras.models.load_model("mp__model_output_v0.0.1.keras")
+label_names = ["partial_mask","with_mask","without_mask"]
+model_version = "0.0.1"
 
 api_router = APIRouter()
 
@@ -41,8 +45,6 @@ example_input = {
 }
 def make_prediction(test_image) -> dict:
     """Make a prediction using a pre-trained, saved model """
-    reloaded_model = keras.models.load_model(str(TRAINED_MODEL_DIR / "mp__model_output_v0.0.1.keras"))
-    label_names = ["partial_mask","with_mask","without_mask"]
     img_tensor = get_img_array()
     predicted = reloaded_model.predict(img_tensor)
     predicted_id = np.argmax(predicted, axis=-1)
@@ -55,7 +57,7 @@ def make_prediction(test_image) -> dict:
 # Function to preprocess the image into an array suitable for input into a model
 def get_img_array():
     # Loading the image from the path and resizing it to the target size (180x180)
-    img = keras.utils.load_img(str(PRED_DIR / "IMG_0334.jpg"), target_size=(256, 256))
+    img = keras.utils.load_img("IMG_0334.jpg", target_size=(256, 256))
 
     # Converting the loaded image into a numpy array
     array = keras.utils.img_to_array(img)  # Converts image to a 3D numpy array (height, width, channels)

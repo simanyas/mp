@@ -9,9 +9,10 @@ from typing import Any
 from fastapi import APIRouter, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-
+import tensorflow as tf
 from app.api import api_router
 from app.config import settings
+import uvicorn
 
 app = FastAPI(
     title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
@@ -52,7 +53,6 @@ if settings.BACKEND_CORS_ORIGINS:
 
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001) 
 
     ## localhost--> 127.0.0.0
